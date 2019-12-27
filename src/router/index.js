@@ -10,7 +10,7 @@ const routes = [
     meta:{
       "title":"123"
     },
-    component: () => import('../views/book/editor.vue')
+    component: () => import('../views/book/editor/main.vue')
   }
 ]
 

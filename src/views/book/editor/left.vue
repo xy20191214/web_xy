@@ -1,29 +1,27 @@
 <template>
-    <el-row :gutter="0" v-wechat-title="$route.meta.title" class="h1">
-        <el-col :span="5" class="h1 mrolla c1">
-            <div class="grid-content">
-                <div class="go-first">
-                    <el-button round class="go-first-size">回首页</el-button>
-                </div>
-                <div class="operation">
-                    <el-button icon="el-icon-plus micon" class="mbutton" circle>
-                    </el-button>
-                    <el-button icon="el-icon-search micon" :class="[circle ? 'mbutton' : 'mbutton-s']" :circle="circle" @click="oInput">
-                    </el-button>
-                    <el-input ref="oInput" placeholder="请输入搜索内容" class="operation-input" v-model="filterText">
-                    </el-input>
-                </div>
-                <div class="custom-tree-container">
-                    <el-tree
-                            icon-class="no"
-                            accordion
-                            class="filter-tree"
-                            node-key="id"
-                            :data="data"
-                            :props="defaultProps"
-                            :filter-node-method="filterNode"
-                            ref="tree"
-                            @node-click="nodeClick">
+    <div class="grid-content">
+        <div class="go-first">
+            <el-button round class="go-first-size">回首页</el-button>
+        </div>
+        <div class="operation">
+            <el-button icon="el-icon-plus micon" class="mbutton" circle>
+            </el-button>
+            <el-button icon="el-icon-search micon" :class="[circle ? 'mbutton' : 'mbutton-s']" :circle="circle" @click="oInput">
+            </el-button>
+            <el-input ref="oInput" placeholder="请输入搜索内容" class="operation-input" v-model="filterText">
+            </el-input>
+        </div>
+        <div class="custom-tree-container msrolla h1">
+            <el-tree
+                    icon-class="no"
+                    accordion
+                    class="filter-tree"
+                    node-key="id"
+                    :data="data"
+                    :props="defaultProps"
+                    :filter-node-method="filterNode"
+                    ref="tree"
+                    @node-click="nodeClick">
                         <span class="custom-tree-node" slot-scope="{ node }">
                             <span>{{ node.label }}</span>
                                 <span>
@@ -39,20 +37,23 @@
                                         <i class="el-icon-setting"></i>
                                     </el-tooltip>
                                 </span>
-                          </span>
-                    </el-tree>
-                </div>
-            </div>
-        </el-col>
-        <el-col :span="6" class="h1 mroll">
-            <div class="grid-content">
-                <div v-for="n in 100" :key="n">{{n}}</div>
-            </div>
-        </el-col>
-        <el-col :span="13" class="h1"><div class="grid-content"></div></el-col>
-    </el-row>
+                        </span>
+            </el-tree>
+        </div>
+    </div>
 </template>
 <style>
+    .operation-empty{
+        height: 40px;
+        width: 100%;
+    }
+    .operation-footer{
+        height: 40px;
+        position:fixed;
+        bottom:0;
+        background: #404040;
+        user-select: none;
+    }
     .mbutton{
         padding: 9px;
     }
@@ -65,8 +66,10 @@
         font-weight: bold;
     }
     .operation{
+        width: 90%;
         height: 38px;
-        padding: 15px 10% 10px 10%;
+        padding: 15px 0 15px 10%;
+        border-bottom: 1px solid #666;
     }
     .operation-input > .el-input__inner{
         height:39px;
@@ -76,11 +79,14 @@
         padding: 0px;
         transition-property:all;
         transition-duration:.5s;
-        width: 0;
         transition-delay: 0.1s;
+        width: 0;
     }
     .operation-input{
-        width: 55%;
+        width: 0;
+        transition-property:all;
+        transition-duration:.5s;
+        transition-delay: 0.1s;
     }
     .go-first{
         border-bottom: 1px solid #666;
@@ -97,12 +103,6 @@
         border-color: #666;
         background-color: #666;
     }
-    .c1 {
-        background: #404040;
-    }
-    .grid-content {
-        height: 100%;
-    }
     .el-tree{
         background: #404040;
         color: #fff;
@@ -114,12 +114,10 @@
     .el-tree-node:focus > .el-tree-node__content {
         background-color: #666;
     }
-
     .el-tree-node-checked{
         background-color: #666;
         border-left:#ba3e3e 3px solid;
     }
-
     .el-tree-node__content:hover{
         background-color: #666;
     }
@@ -163,6 +161,7 @@
                 if (this.circle)
                 {
                     this.circle = false;
+                    this.$refs.oInput.$el.style.width = "55%";
                     input.style.width = "100%";
                     input.style.paddingLeft = "5%";
 
@@ -171,6 +170,7 @@
                     this.$refs.tree.filter('');
                     input.style.width = "0";
                     input.style.paddingLeft = "0";
+                    this.$refs.oInput.$el.style.width = "0";
                     input.addEventListener("transitionend", function (e)
                     {
                         if(e.target === this && transitionFlag)
@@ -205,6 +205,87 @@
                         children: [{
                             id: 9,
                             label: '三级 1-1-1'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
                         }, {
                             id: 10,
                             label: '三级 1-1-2'
