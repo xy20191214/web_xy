@@ -73,10 +73,10 @@
     }
     .operation-input > .el-input__inner{
         height:39px;
-        border-bottom-left-radius: 0px;
-        border-top-left-radius: 0px;
-        border: 0px;
-        padding: 0px;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        border: 0;
+        padding: 0;
         transition-property:all;
         transition-duration:.5s;
         transition-delay: 0.1s;

@@ -1,6 +1,6 @@
 <template>
     <div class="grid-content">
-        <div class="editor-tip"></div>
+        <div class="editor-tip">已保存</div>
         <div class="editor-title">
             <input type="text" :value="value" class="editor-title-input">
         </div>
@@ -10,13 +10,19 @@
                 :boxShadow="false"
                 toolbarsBackground="#d9d9d9"
                 :subfield="false"
+                placeholder="忘了怎么用？请看右上角'?'"
+                style="height:90%;width:100%;border:0"
+                @subfieldToggle="subfieldToggle"
         >
         </mavon-editor>
     </div>
 </template>
 <style>
     .editor-tip{
-        height: 20px;
+        font-size: 12px;
+    }
+    .editor-tip{
+        height: 23px;
     }
     .editor-title{
         height : 50px;
@@ -45,22 +51,19 @@
         components: {
             mavonEditor
         },
+        methods: {
+            subfieldToggle()
+            {
+                console.log(this.$refs.editor);
+            }
+        },
         data(){
             return {
                 value: "没有名字的" + day.getFullYear() + "-" + (day.getMonth() + 1) + "-" + day.getDate() + "作品",
                 markdownOption: {
-                    boxShadowStyle:false,
-                    bold: false, // 粗体
-                    italic: false, // 斜体
-                    header: true, // 标题
-                    underline: true, // 下划线
-                    strikethrough: false, // 中划线
-                    mark: false, // 标记
                     superscript: true, // 上角标
                     subscript: true, // 下角标
                     quote: true, // 引用
-                    ol: true, // 有序列表
-                    ul: true, // 无序列表
                     link: true, // 链接
                     imagelink: true, // 图片链接
                     code: true, // code

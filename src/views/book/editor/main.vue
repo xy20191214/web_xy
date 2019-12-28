@@ -6,7 +6,7 @@
         <el-col :span="6" class="h1 mroll">
             <middle></middle>
         </el-col>
-        <el-col :span="13" class="h1">
+        <el-col :span="13" class="h1 mrolla">
             <right></right>
         </el-col>
     </el-row>
