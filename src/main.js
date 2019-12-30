@@ -5,11 +5,11 @@ import './plugins/element/element.js'
 import './plugins/element/index.css'
 import store from './store'
 
-Vue.config.productionTip = false
-Vue.use(require('vue-wechat-title'))
+Vue.config.productionTip = false;
+Vue.use(require('vue-wechat-title'));
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

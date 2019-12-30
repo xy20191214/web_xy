@@ -9,20 +9,27 @@
                 :toolbars="markdownOption"
                 :boxShadow="false"
                 toolbarsBackground="#d9d9d9"
-                :subfield="false"
-                placeholder="忘了怎么用？请看右上角'?'"
-                style="height:90%;width:100%;border:0"
+                :subfield="subfield"
+                placeholder="忘了怎么用？请看右上角'?'，如果命令好使请在符号后面加空格"
+                class="esytle"
                 @subfieldToggle="subfieldToggle"
+                @fullScreen="fullScreen"
         >
         </mavon-editor>
     </div>
 </template>
 <style>
-    .editor-tip{
-        font-size: 12px;
+    .esytle{
+        width: 100%;
+        border: 0;
+        height: 100%;
     }
     .editor-tip{
-        height: 23px;
+        font-size: 12px;
+        float: right;
+    }
+    .editor-tip{
+        height: 16px;
     }
     .editor-title{
         height : 50px;
@@ -52,13 +59,43 @@
             mavonEditor
         },
         methods: {
-            subfieldToggle()
+            subfieldToggle(status)
             {
-                console.log(this.$refs.editor);
+                let subfiledparpo = this.$refs.editor.$el.children[1]; // 获取父级
+                let subfieldpo = subfiledparpo.children[0].classList; // 获取双栏子级
+
+                if (! status)
+                {
+                    subfiledparpo.children[1].style.display = "none"
+                    subfieldpo.add("scroll-style-border-radius");
+                    subfieldpo.add("single-edit");
+                    this.subfield = false;
+                }
+            },
+            fullScreen(status)
+            {
+                let subfiledparpo = this.$refs.editor.$el.children[1]; // 获取父级
+                let subfieldpo = subfiledparpo.children[0].classList; // 获取双栏子级
+
+                // 开启关闭双栏
+                if (status)
+                {
+                    subfiledparpo.children[1].style.display = "";
+                    subfieldpo.remove("scroll-style-border-radius");
+                    subfieldpo.remove("single-edit");
+                    this.subfield = true;
+                }else
+                {
+                    subfiledparpo.children[1].style.display = "none"
+                    subfieldpo.add("scroll-style-border-radius");
+                    subfieldpo.add("single-edit");
+                    this.subfield = false;
+                }
             }
         },
         data(){
             return {
+                subfield: false,
                 value: "没有名字的" + day.getFullYear() + "-" + (day.getMonth() + 1) + "-" + day.getDate() + "作品",
                 markdownOption: {
                     superscript: true, // 上角标
