@@ -141,10 +141,14 @@
             nodeClick(data, node, value)
             {
                 // 还原样式
-                value.$el.parentElement.children.forEach(function(item){
-                    item.style.background = "#404040";
-                });
+                if (value.$el.parentNode.getAttribute('role') == 'tree')
+                {
+                    value.$el.parentElement.children.forEach(function(item){
+                        item.style.background = "#404040";
+                    });
+                }
 
+                // 移除选中样式
                 document.getElementsByClassName("el-tree-node__content").forEach(function(item){
                     item.classList.remove("el-tree-node-checked");
                 });
@@ -198,7 +202,7 @@
                 filterText: '',
                 data: [{
                     id: 1,
-                    label: '测试十个字的标签行不',
+                    label: '最多十五个字啊啊啊啊呜呜呜呜呜1..',
                     children: [{
                         id: 4,
                         label: '二级 1-1',
