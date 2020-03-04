@@ -130,6 +130,9 @@
     }
 </style>
 <script>
+    import { getType } from '@/api/book/editor';
+    var data = {};
+
     export default {
         watch: {
             filterText(val)
@@ -138,8 +141,32 @@
             }
         },
         methods: {
+            // 处理数据位置
+            setListType(id, res)
+            {
+                this.data.forEach(function(v, k)
+                {
+                    if (v.id == id)
+                    {
+                        v.children = res;
+                    }
+                });
+            },
+            // 列表左侧数据
+            listType(id = '')
+            {
+                getType(id).then(res => {
+                    if (id)
+                        this.setListType(id, res.data.data);
+                    else
+                        this.data = res.data.data;
+                });
+            },
             nodeClick(data, node, value)
             {
+                console.log(node);
+                this.listType(data.id);
+
                 // 还原样式
                 if (value.$el.parentNode.getAttribute('role') == 'tree')
                 {
@@ -195,121 +222,15 @@
                 return data.label.indexOf(value) !== -1;
             }
         },
+        mounted(){
+            this.listType();
+        },
         data()
         {
             return {
                 circle:true,
                 filterText: '',
-                data: [{
-                    id: 1,
-                    label: '最多十五个字啊啊啊啊呜呜呜呜呜1..',
-                    children: [{
-                        id: 4,
-                        label: '二级 1-1',
-                        children: [{
-                            id: 9,
-                            label: '三级 1-1-1'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }]
-                    }]
-                }, {
-                    id: 2,
-                    label: '一级 2',
-                    children: []
-                }, {
-                    id: 3,
-                    label: '一级 3',
-                    children: [{
-                        id: 7,
-                        label: '二级 3-1'
-                    }, {
-                        id: 8,
-                        label: '二级 3-2'
-                    }]
-                }],
+                data: [],
                 defaultProps: {
                     children: 'children',
                     label: 'label'

@@ -4,7 +4,7 @@ import axios from 'axios';
 const service = axios.create({
     // api的base_url
     baseURL: process.env.VUE_APP_REWRITE,
-
+    method: 'get',
     // 请求超时时间
     timeout: 5000
 });
