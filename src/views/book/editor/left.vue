@@ -11,8 +11,10 @@
             <el-input ref="oInput" placeholder="请输入搜索内容" class="operation-input" v-model="filterText">
             </el-input>
         </div>
-        <div class="custom-tree-container msrolla h1">
+        <div class="custom-tree-container msrolla" @scroll="scroll">
             <el-tree
+                    v-loading="loading"
+                    element-loading-background="rgb(64, 64, 64)"
                     icon-class="no"
                     accordion
                     class="filter-tree"
@@ -21,6 +23,9 @@
                     :props="defaultProps"
                     :filter-node-method="filterNode"
                     ref="tree"
+                    :load="loadNode"
+                    empty-text=""
+                    lazy
                     @node-click="nodeClick">
                         <span class="custom-tree-node" slot-scope="{ node }">
                             <span>{{ node.label }}</span>
@@ -131,7 +136,6 @@
 </style>
 <script>
     import { getType } from '@/api/book/editor';
-    var data = {};
 
     export default {
         watch: {
@@ -141,32 +145,36 @@
             }
         },
         methods: {
-            // 处理数据位置
-            setListType(id, res)
+            // 设置div高度
+            setHeight()
             {
-                this.data.forEach(function(v, k)
+                let height = document.body.clientHeight - document.getElementsByClassName("go-first")[0].offsetHeight - document.getElementsByClassName("operation")[0].offsetHeight;
+                document.getElementsByClassName('custom-tree-container')[0].style.height = height + 'px';
+            },
+            // 滚动条
+            scroll(e) {
+                let bottom = e.target.scrollHeight - Math.floor(e.target.scrollTop) - e.target.clientHeight;
+                console.log(bottom);
+
+            },
+            // 加载节点
+            loadNode(node, resolve)
+            {
+                if (node.level === 3 || node.level === 0) return resolve([]);
+                this.listType(node.data.id).then(res =>
                 {
-                    if (v.id == id)
-                    {
-                        v.children = res;
-                    }
+                    return resolve(res);
                 });
             },
             // 列表左侧数据
-            listType(id = '')
+            async listType(id = '')
             {
-                getType(id).then(res => {
-                    if (id)
-                        this.setListType(id, res.data.data);
-                    else
-                        this.data = res.data.data;
-                });
+                let res = await getType(id);
+                this.loading = false;
+                return id ? res.data.data : this.data = res.data.data;
             },
             nodeClick(data, node, value)
             {
-                console.log(node);
-                this.listType(data.id);
-
                 // 还原样式
                 if (value.$el.parentNode.getAttribute('role') == 'tree')
                 {
@@ -223,17 +231,19 @@
             }
         },
         mounted(){
+            this.setHeight();
             this.listType();
         },
         data()
         {
             return {
-                circle:true,
+                circle: true,
                 filterText: '',
                 data: [],
+                loading: true,
                 defaultProps: {
                     children: 'children',
-                    label: 'label'
+                    label: 'title'
                 }
             };
         }
