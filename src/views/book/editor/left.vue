@@ -148,7 +148,7 @@
             // 设置div高度
             setHeight()
             {
-                $$('sss', $('#aaa'), 2);
+                $$($.ajax());
                 let height = document.body.clientHeight - document.getElementsByClassName("go-first")[0].offsetHeight - document.getElementsByClassName("operation")[0].offsetHeight;
                 document.getElementsByClassName('custom-tree-container')[0].style.height = height + 'px';
             },

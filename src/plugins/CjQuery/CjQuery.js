@@ -6,6 +6,7 @@
         return new jQuery.fn.init(selector);
     };
 
+    // 生成原型对象并覆盖prototype对象
     jQuery.fn = jQuery.prototype = {
         construtor: jQuery,
         version: '1.0.0',
@@ -26,31 +27,33 @@
         // ... ...
     };
 
+    // 生成原型对象并覆盖prototype对象
     jQuery.fn.init.prototype = jQuery.fn;
+    // 生成工具和原型两个方法
     jQuery.extend = jQuery.fn.extend = function (options)
     {
         var target = this;
-        var copy;
 
         for (name in options)
         {
-            copy = options[name];
-            target[name] = copy;
+            target[name] = options[name];
         }
 
         return target;
     };
 
-    // 添加到构造函数
+    // 调用extend方法,添加到构造函数 $.xx = jQuery.xx
     jQuery.extend({
         isFunction: function (){},
         type: function (){},
         parseHTML: function (){},
         parseJSON: function (){},
-        ajax: function (){}
+        ajax: function (){
+            return 1;
+        }
     });
 
-    // 添加到原型上
+    // 调用fn.extend方法，添加到原型上 $(init).xx = jQuery(init).xx
     jQuery.fn.extend({
         queue: function () {},
         promise: function () {},
