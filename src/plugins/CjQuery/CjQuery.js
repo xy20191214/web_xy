@@ -75,9 +75,9 @@
     ROOT.$ = jQuery;
 
     // 简化打印
-    ROOT.$$ = function (d)
+    ROOT.$$ = function (...d)
     {
-        return console.log(d);
+        return console.log(...d);
     };
 
 })(window);
