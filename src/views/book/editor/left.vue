@@ -1,6 +1,6 @@
 <template>
     <div class="grid-content">
-        <div class="go-first" id="aaa">
+        <div class="go-first">
             <el-button round class="go-first-size">回首页</el-button>
         </div>
         <div class="operation">
@@ -148,7 +148,6 @@
             // 设置div高度
             setHeight()
             {
-                $$($.ajax());
                 let height = document.body.clientHeight - document.getElementsByClassName("go-first")[0].offsetHeight - document.getElementsByClassName("operation")[0].offsetHeight;
                 document.getElementsByClassName('custom-tree-container')[0].style.height = height + 'px';
             },

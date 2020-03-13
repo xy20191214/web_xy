@@ -8,17 +8,52 @@
 
     // 生成原型对象并覆盖prototype对象
     jQuery.fn = jQuery.prototype = {
-        construtor: jQuery,
+        construtor: jQuery, // 上次执行的this
         version: '1.0.0',
+        length: 0,
         init: function (selector)
         {
-            this[0]= document.querySelector(selector);
+            // 获取相关元素
+            let d = document.querySelectorAll(selector), i = 0, len = d.length;
+
+            for (; i < len; i++)
+            {
+                this[i] = d[i];
+            }
+            this.length = len;
 
             return this;
         },
-
         // 在原型上添加方法
-        toArray: function (){},
+        toArray: function (d) // 转换数组
+        {
+            let array = [], i = 0, len = d.length;
+            for (; i < len; i++)
+            {
+                array[i] = d[i];
+            }
+
+            return array;
+        },
+        merge: function(second) // 生产新对象
+        {
+            var first = this.construtor(), // 获取新对象
+                len = +second.length,
+                j = 0,
+                i = first.length;
+
+            for ( ; j < len; j++ ) {
+                first[i++] = second[j];
+            }
+
+            first.length = i;
+
+            return first;
+        },
+        eq: function (i) // 选择对象
+        {
+            return this.merge([this[i]]);
+        },
         get: function (){},
         each: function (){},
         ready: function (){},
@@ -27,9 +62,7 @@
         // ... ...
     };
 
-    // 生成原型对象并覆盖prototype对象
     jQuery.fn.init.prototype = jQuery.fn;
-    // 生成工具和原型两个方法
     jQuery.extend = jQuery.fn.extend = function (options)
     {
         var target = this;
@@ -48,9 +81,7 @@
         type: function (){},
         parseHTML: function (){},
         parseJSON: function (){},
-        ajax: function (){
-            return 1;
-        }
+        ajax: function (){}
     });
 
     // 调用fn.extend方法，添加到原型上 $(init).xx = jQuery(init).xx
@@ -67,9 +98,8 @@
         },
         css: function () {
         },
-        html: function (el) {
-            el = this[0].innerText;
-            return el;
+        html: function () {
+            return this[0];
         }
     });
     // ...
