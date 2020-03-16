@@ -148,13 +148,13 @@
             // 设置div高度
             setHeight()
             {
-                let height = document.body.clientHeight - document.getElementsByClassName("go-first")[0].offsetHeight - document.getElementsByClassName("operation")[0].offsetHeight;
-                document.getElementsByClassName('custom-tree-container')[0].style.height = height + 'px';
+                let height = $('body').ht() - $(".go-first").oht() - $(".operation").oht();
+                $('.custom-tree-container').ht(height);
             },
             // 滚动条
-            scroll(e) {
-                let bottom = e.target.scrollHeight - Math.floor(e.target.scrollTop) - e.target.clientHeight;
-                console.log(bottom);
+            scroll(e)
+            {
+                let bottom = $(e).sht() - Math.floor($(e).st()) - $(e).ht();
 
             },
             // 加载节点

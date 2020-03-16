@@ -13,14 +13,24 @@
         length: 0,
         init: function (selector)
         {
-            // 获取相关元素
-            let d = document.querySelectorAll(selector), i = 0, len = d.length;
+            let d = {};
+            if (typeof selector == 'object')
+            {
+                d[0] = selector.target;
+                d.length = 1;
 
-            for (; i < len; i++)
+            }else{
+                // 获取相关元素
+                d = document.querySelectorAll(selector);
+            }
+
+            let i = 0;
+            for (; i < d.length; i++)
             {
                 this[i] = d[i];
             }
-            this.length = len;
+
+            this.length = d.length;
 
             return this;
         },
@@ -57,12 +67,16 @@
         get: function (){},
         each: function (){},
         ready: function (){},
-        first: function (){},
+        first: function (){
+            return this.eq(0);
+        },
         slice: function (){}
         // ... ...
     };
 
     jQuery.fn.init.prototype = jQuery.fn;
+
+    // 组装对象
     jQuery.extend = jQuery.fn.extend = function (options)
     {
         var target = this;
@@ -81,7 +95,10 @@
         type: function (){},
         parseHTML: function (){},
         parseJSON: function (){},
-        ajax: function (){}
+        ajax: function ()
+        {
+            return this;
+        }
     });
 
     // 调用fn.extend方法，添加到原型上 $(init).xx = jQuery(init).xx
@@ -96,10 +113,29 @@
             v = this[0].defaultValue;
             return v;
         },
-        css: function () {
+        css: function (attr, val)
+        {
+            return this[0]['style'][attr] = val;
         },
         html: function () {
             return this[0];
+        },
+        ht: function (i)
+        {// 窗口高
+            if (i) return this.css('height', i + 'px');
+            return this[0].clientHeight;
+        },
+        oht: function ()
+        {// 无边框窗口高
+            return this[0].offsetHeight;
+        },
+        sht: function ()
+        {// 滚动条高
+            return this[0].scrollHeight;
+        },
+        st: function ()
+        {// 滚动条距顶端
+            return this[0].scrollTop;
         }
     });
     // ...
