@@ -1,4 +1,7 @@
-(function (ROOT)
+(function (global, factory)
+{
+    factory (global);
+})(window, function (window)
 {
     // 构造函数
     var jQuery = function (selector)
@@ -48,16 +51,18 @@
         merge: function(second) // 生产新对象
         {
             var first = this.construtor(), // 获取新对象
-                len = +second.length,
+                len = second.length,
                 j = 0,
                 i = first.length;
 
-            for ( ; j < len; j++ ) {
+            for (; j < len; j++)
+            {
                 first[i++] = second[j];
             }
 
             first.length = i;
 
+            // 返回jq对象
             return first;
         },
         eq: function (i) // 选择对象
@@ -97,6 +102,7 @@
         parseJSON: function (){},
         ajax: function ()
         {
+            // 占位
             return this;
         }
     });
@@ -141,12 +147,11 @@
     // ...
 
     // $符号的由来，实际上它就是jQuery，一个简化的写法，在这里我们还可以替换成其他可用字符
-    ROOT.$ = jQuery;
+    window.$ = jQuery;
 
     // 简化打印
-    ROOT.$$ = function (...d)
+    window.$$ = function (...d)
     {
         return console.log(...d);
     };
-
-})(window);
+});

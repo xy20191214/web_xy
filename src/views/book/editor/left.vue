@@ -155,7 +155,7 @@
             scroll(e)
             {
                 let bottom = $(e).sht() - Math.floor($(e).st()) - $(e).ht();
-
+                console.log(bottom)
             },
             // 加载节点
             loadNode(node, resolve)
