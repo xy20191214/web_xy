@@ -148,7 +148,8 @@
             // 设置div高度
             setHeight()
             {
-                let height = $('body').ht() - $(".go-first").oht() - $(".operation").oht();
+                console.log($(this).children('.go-first'))
+                let height = $('.grid-content').ht() - $(".go-first").oht() - $(".operation").oht();
                 $('.custom-tree-container').ht(height);
             },
             // 滚动条

@@ -17,8 +17,16 @@
         init: function (selector)
         {
             let d = {};
+            // 对象
             if (typeof selector == 'object')
             {
+                // 兼容vue
+                if (selector.$el !== undefined)
+                {
+                    return this.merge([selector.$el]);
+                }
+
+                // event对象等
                 d[0] = selector.target;
                 d.length = 1;
 
@@ -75,7 +83,30 @@
         first: function (){
             return this.eq(0);
         },
-        slice: function (){}
+        slice: function (){},
+        children: function (val)
+        {
+            //if (val) return this.merge(this[0].children).find(val);
+            return this.merge(this[0].children);
+        },
+        find: function (val)
+        {// 只支持id与class
+            /*let i = 0, first = this.construtor();
+            if (val.substr(0, 1) == '.')
+            {
+
+            }
+            for (; i < this.length; i++)
+            {
+                if ()
+                console.log()
+
+            }*/
+
+            //this.length = 1;
+
+            return this;
+        }
         // ... ...
     };
 
