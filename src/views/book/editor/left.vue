@@ -148,9 +148,9 @@
             // 设置div高度
             setHeight()
             {
-                console.log($(this).children('.go-first'))
                 let height = $('.grid-content').ht() - $(".go-first").oht() - $(".operation").oht();
                 $('.custom-tree-container').ht(height);
+                console.log(height / 36)
             },
             // 滚动条
             scroll(e)
@@ -234,6 +234,11 @@
         mounted(){
             this.setHeight();
             this.listType();
+            // 窗口改变
+            window.onresize = () => {
+                this.setHeight();
+                this.listType();
+            }
         },
         data()
         {
