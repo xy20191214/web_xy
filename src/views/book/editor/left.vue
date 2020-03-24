@@ -24,7 +24,7 @@
                     :filter-node-method="filterNode"
                     ref="tree"
                     :load="loadNode"
-                    empty-text=""
+                    :empty-text="text"
                     lazy
                     @node-click="nodeClick">
                         <span class="custom-tree-node" slot-scope="{ node }">
@@ -150,13 +150,21 @@
             {
                 let height = $('.grid-content').ht() - $(".go-first").oht() - $(".operation").oht();
                 $('.custom-tree-container').ht(height);
-                console.log(height / 36)
+                this.limit = Math.ceil(height / 36) + 1; // 自定义分页数
             },
             // 滚动条
             scroll(e)
             {
                 let bottom = $(e).sht() - Math.floor($(e).st()) - $(e).ht();
-                console.log(bottom)
+
+                // 分页
+                if (bottom === 1 && this.bool)
+                {
+                    this.bool = false;
+
+                    if (this.temp.last_page > this.temp.current_page)
+                        this.listType(0, this.temp.last_page);
+                }
             },
             // 加载节点
             loadNode(node, resolve)
@@ -168,11 +176,26 @@
                 });
             },
             // 列表左侧数据
-            async listType(id = '')
+            async listType(pch = 0, page = 1, limit = '')
             {
-                let res = await getType(id);
+                limit = limit ? limit : this.limit;
+                let old = this.data,
+                    res = await getType(pch, page, limit);
+                let data = res.data.data;
+
+                // 验证
+                if (data.length == 0) this.text = '列表数据不存在';
+
+                // 子集
+                if (pch) return data;
+
                 this.loading = false;
-                return id ? res.data.data : this.data = res.data.data;
+                this.bool = true;
+                this.temp = res.data;
+
+                // 分页
+                if (page > 1 && data) this.data = old.concat(data);
+                else this.data = data;
             },
             nodeClick(data, node, value)
             {
@@ -228,7 +251,7 @@
             filterNode(value, data)
             {
                 if (! value) return true;
-                return data.label.indexOf(value) !== -1;
+                return data.title.indexOf(value) !== -1;
             }
         },
         mounted(){
@@ -243,6 +266,10 @@
         data()
         {
             return {
+                text:'',
+                temp: '', // 临时数据
+                limit: 10, // 每页条数
+                bool: true, // 请求控制
                 circle: true,
                 filterText: '',
                 data: [],

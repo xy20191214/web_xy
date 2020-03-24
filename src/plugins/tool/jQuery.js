@@ -181,7 +181,7 @@
     window.$ = jQuery;
 
     // 简化打印
-    window.$$ = function (...d)
+    window.dd = function (...d)
     {
         return console.log(...d);
     };
