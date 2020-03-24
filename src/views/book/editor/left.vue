@@ -4,8 +4,10 @@
             <el-button round class="go-first-size">回首页</el-button>
         </div>
         <div class="operation">
-            <el-button icon="el-icon-plus micon" class="mbutton" circle>
+            <el-button icon="el-icon-plus micon" :class="[addCircle ? 'mbutton' : 'mbutton-s']" :circle="addCircle" @click="addInput">
             </el-button>
+            <el-input ref="addInput" placeholder="请输入标题" class="operation-input" v-model="filterText">
+            </el-input>
             <el-button icon="el-icon-search micon" :class="[circle ? 'mbutton' : 'mbutton-s']" :circle="circle" @click="oInput">
             </el-button>
             <el-input ref="oInput" placeholder="请输入搜索内容" class="operation-input" v-model="filterText">
@@ -77,7 +79,7 @@
         border-bottom: 1px solid #666;
     }
     .operation-input > .el-input__inner{
-        height:39px;
+        height: 40px;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
         border: 0;
@@ -216,6 +218,38 @@
                 value.$el.firstChild.classList.add("el-tree-node-checked");
                 value.$el.style.background = 'rgb(51, 51, 51)';
             },
+            addInput()
+            {
+                let input = this.$refs.addInput.$el.children[0];
+                let ithis = this;
+                let transitionFlag = true;
+                dd($(this))
+                if (this.addCircle)
+                {
+                    this.addCircle = false;
+                    this.$refs.addInput.$el.style.width = "55%";
+                    input.style.width = "100%";
+                    input.style.paddingLeft = "5%";
+
+                }else
+                {
+                    input.style.width = "0";
+                    input.style.paddingLeft = "0";
+                    this.$refs.addInput.$el.style.width = "0";
+                    input.addEventListener("transitionend", function (e)
+                    {
+                        if(e.target === this && transitionFlag)
+                        {
+                            transitionFlag = false;
+
+                            if (input.width == 0)
+                            {
+                                ithis.addCircle = true;
+                            }
+                        }
+                    }, true);
+                }
+            },
             oInput()
             {
                 let input = this.$refs.oInput.$el.children[0];
@@ -271,6 +305,7 @@
                 limit: 10, // 每页条数
                 bool: true, // 请求控制
                 circle: true,
+                addCircle:true,
                 filterText: '',
                 data: [],
                 loading: true,
