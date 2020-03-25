@@ -17,6 +17,7 @@
         init: function (selector)
         {
             let d = {};
+
             // 对象
             if (typeof selector == 'object')
             {
@@ -24,6 +25,12 @@
                 if (selector.$el !== undefined)
                 {
                     return this.merge([selector.$el]);
+                }
+
+                // html对象
+                if (selector instanceof HTMLElement)
+                {
+                    return this.merge([selector]);
                 }
 
                 // event对象等
@@ -152,7 +159,8 @@
         },
         css: function (attr, val)
         {
-            return this[0]['style'][attr] = val;
+            this[0]['style'][attr] = val;
+            return this;
         },
         html: function () {
             return this[0];

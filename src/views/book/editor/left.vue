@@ -8,6 +8,9 @@
             </el-button>
             <el-input ref="addInput" placeholder="请输入标题" class="operation-input" v-model="filterText">
             </el-input>
+            <el-button icon="el-icon-check micon" :class="[addOk ? 'mbutton-r' : 'mbutton-r-b']">
+            </el-button>
+            <i style="margin-left: 5px"></i>
             <el-button icon="el-icon-search micon" :class="[circle ? 'mbutton' : 'mbutton-s']" :circle="circle" @click="oInput">
             </el-button>
             <el-input ref="oInput" placeholder="请输入搜索内容" class="operation-input" v-model="filterText">
@@ -49,7 +52,7 @@
         </div>
     </div>
 </template>
-<style>
+<style lang="less">
     .operation-empty{
         height: 40px;
         width: 100%;
@@ -63,18 +66,42 @@
     }
     .mbutton{
         padding: 9px;
+        transition-property: all;
+        transition-duration: 400ms;
+        transition-delay: 515ms;
     }
     .mbutton-s{
         border-bottom-right-radius: 0px;
         border-top-right-radius: 0px;
         padding: 12px;
+        transition-property: all;
+        transition-duration: 400ms;
+    }
+    .mbutton-r{
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        width: 0;
+        height: 40px;
+        border: 0;
+        padding: 0;
+        transition-property: all;
+        transition-duration: .3s;
+     }
+    .mbutton-r-b{
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        width: 40px;
+        height: 40px;
+        padding: 12px;
+        transition-property: all;
+        transition-duration: 400ms;
+        transition-delay: 515ms;
     }
     .micon{
         font-weight: bold;
     }
     .operation{
         width: 90%;
-        height: 38px;
         padding: 15px 0 15px 10%;
         border-bottom: 1px solid #666;
     }
@@ -82,6 +109,8 @@
         height: 40px;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
         border: 0;
         padding: 0;
         transition-property:all;
@@ -218,37 +247,48 @@
                 value.$el.firstChild.classList.add("el-tree-node-checked");
                 value.$el.style.background = 'rgb(51, 51, 51)';
             },
-            addInput()
+            // 封装动画
+            anmi(t, input)
             {
-                let input = this.$refs.addInput.$el.children[0];
-                let ithis = this;
                 let transitionFlag = true;
-                dd($(this))
-                if (this.addCircle)
+
+                if (t.addCircle)
                 {
-                    this.addCircle = false;
-                    this.$refs.addInput.$el.style.width = "55%";
-                    input.style.width = "100%";
-                    input.style.paddingLeft = "5%";
+                    t.addCircle = false;
+                    t.addOk = false;
+                    $(t.$refs.addInput).css('width', '55%');
+
+                    $(input).css('width', '100%')
+                        .css('paddingLeft', '5%')
+                        .css('border', '1px solid #DCDFE6');
 
                 }else
                 {
-                    input.style.width = "0";
-                    input.style.paddingLeft = "0";
-                    this.$refs.addInput.$el.style.width = "0";
-                    input.addEventListener("transitionend", function (e)
-                    {
-                        if(e.target === this && transitionFlag)
-                        {
-                            transitionFlag = false;
+                    t.addOk = true;
+                    t.addCircle = true;
+                    $(input).css('border', 0)
+                        .css('width', 0)
+                        .css('paddingLeft', 0);
+                    $(t.$refs.addInput).css('width', 0);
 
-                            if (input.width == 0)
-                            {
-                                ithis.addCircle = true;
-                            }
-                        }
-                    }, true);
+                    // input.addEventListener("transitionend", function (e)
+                    // {
+                    //     if(e.target === this && transitionFlag)
+                    //     {
+                    //         transitionFlag = false;
+                    //
+                    //         if (input.width == 0)
+                    //         {
+                    //             t.addCircle = true;
+                    //         }
+                    //     }
+                    // }, true);
                 }
+            },
+            addInput()
+            {
+                let input = this.$refs.addInput.$el.children[0]
+                this.anmi(this, input);
             },
             oInput()
             {
@@ -305,7 +345,8 @@
                 limit: 10, // 每页条数
                 bool: true, // 请求控制
                 circle: true,
-                addCircle:true,
+                addCircle: true,
+                addOk: true,
                 filterText: '',
                 data: [],
                 loading: true,
