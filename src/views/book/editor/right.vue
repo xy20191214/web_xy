@@ -10,7 +10,7 @@
                 :boxShadow="false"
                 toolbarsBackground="#d9d9d9"
                 :subfield="subfield"
-                placeholder="忘了怎么用？请看右上角'?'，如果命令好使请在符号后面加空格"
+                placeholder="忘了怎么用？请看右上角'?'，如果命令不好使请在符号后面加空格"
                 class="esytle"
                 @subfieldToggle="subfieldToggle"
                 @fullScreen="fullScreen"

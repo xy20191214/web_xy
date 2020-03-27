@@ -6,15 +6,21 @@
         <div class="operation">
             <el-button icon="el-icon-plus micon" :class="[addCircle ? 'mbutton' : 'mbutton-s']" :circle="addCircle" @click="addInput">
             </el-button>
-            <el-input ref="addInput" placeholder="请输入标题" class="operation-input" v-model="filterText">
+            <el-input ref="addInput" placeholder="请输入标题" class="operation-input" v-model="title"
+                      clearable maxlength="12">
             </el-input>
-            <el-button icon="el-icon-check micon" :class="[addOk ? 'mbutton-r' : 'mbutton-r-b']">
+            <el-button :loading="titleLoading" icon="el-icon-check micon" :class="[addOk ? 'mbutton-r' : 'mbutton-r-b']" @click="addType">
             </el-button>
+
             <i style="margin-left: 5px"></i>
+
             <el-button icon="el-icon-search micon" :class="[circle ? 'mbutton' : 'mbutton-s']" :circle="circle" @click="oInput">
             </el-button>
             <el-input ref="oInput" placeholder="请输入搜索内容" class="operation-input" v-model="filterText">
             </el-input>
+            <el-button icon="el-icon-check micon" :class="[ok ? 'mbutton-r' : 'mbutton-r-b']">
+            </el-button>
+
         </div>
         <div class="custom-tree-container msrolla" @scroll="scroll">
             <el-tree
@@ -81,11 +87,11 @@
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
         width: 0;
-        height: 40px;
         border: 0;
         padding: 0;
+        height: 40px;
         transition-property: all;
-        transition-duration: .3s;
+        transition-duration: 300ms;
      }
     .mbutton-r-b{
         border-bottom-left-radius: 0;
@@ -99,10 +105,11 @@
     }
     .micon{
         font-weight: bold;
+        color: #404040;
     }
     .operation{
-        width: 90%;
-        padding: 15px 0 15px 10%;
+        width: 94%;
+        padding: 15px 0 15px 5%;
         border-bottom: 1px solid #666;
     }
     .operation-input > .el-input__inner{
@@ -166,7 +173,7 @@
     }
 </style>
 <script>
-    import { getType } from '@/api/book/editor';
+    import editor from '@/api/book/editor';
 
     export default {
         watch: {
@@ -176,6 +183,22 @@
             }
         },
         methods: {
+            addType()
+            {
+                if (! this.title)
+                {
+                    this.$alert('分类标题不能为空', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'error'
+                    });
+
+                    return false;
+                }
+
+                this.titleLoading = true;
+                editor.addType(this.title = '');
+                dd(this.title);
+            },
             // 设置div高度
             setHeight()
             {
@@ -211,8 +234,18 @@
             {
                 limit = limit ? limit : this.limit;
                 let old = this.data,
-                    res = await getType(pch, page, limit);
+                    res = await editor.getType(pch, page, limit);
                 let data = res.data.data;
+
+                // 获取左侧宽度，省略字符串
+                let del = Math.floor(($(".grid-content").wd() - 50) / 20);
+                for (let i in data)
+                {
+                    if (data[i].title.length > del)
+                    {
+                        data[i].title = data[i].title.substr(0 ,del) + '...'
+                    }
+                }
 
                 // 验证
                 if (data.length == 0) this.text = '列表数据不存在';
@@ -250,10 +283,11 @@
             // 封装动画
             anmi(t, input)
             {
-                let transitionFlag = true;
-
+                t.titleLoading = false;
                 if (t.addCircle)
                 {
+                    t.circle = false;
+                    t.oInput();
                     t.addCircle = false;
                     t.addOk = false;
                     $(t.$refs.addInput).css('width', '55%');
@@ -270,34 +304,23 @@
                         .css('width', 0)
                         .css('paddingLeft', 0);
                     $(t.$refs.addInput).css('width', 0);
-
-                    // input.addEventListener("transitionend", function (e)
-                    // {
-                    //     if(e.target === this && transitionFlag)
-                    //     {
-                    //         transitionFlag = false;
-                    //
-                    //         if (input.width == 0)
-                    //         {
-                    //             t.addCircle = true;
-                    //         }
-                    //     }
-                    // }, true);
                 }
             },
             addInput()
             {
-                let input = this.$refs.addInput.$el.children[0]
+                let input = this.$refs.addInput.$el.children[0];
                 this.anmi(this, input);
             },
             oInput()
             {
+                this.titleLoading = false;
                 let input = this.$refs.oInput.$el.children[0];
-                let ithis = this;
-                let transitionFlag = true;
                 if (this.circle)
                 {
+                    this.addCircle = false;
+                    this.addInput();
                     this.circle = false;
+                    this.ok = false;
                     this.$refs.oInput.$el.style.width = "55%";
                     input.style.width = "100%";
                     input.style.paddingLeft = "5%";
@@ -305,21 +328,11 @@
                 }else
                 {
                     this.$refs.tree.filter('');
+                    this.ok = true;
                     input.style.width = "0";
                     input.style.paddingLeft = "0";
                     this.$refs.oInput.$el.style.width = "0";
-                    input.addEventListener("transitionend", function (e)
-                    {
-                        if(e.target === this && transitionFlag)
-                        {
-                            transitionFlag = false;
-
-                            if (input.width == 0)
-                            {
-                                ithis.circle = true;
-                            }
-                        }
-                    }, true);
+                    this.circle = true;
                 }
             },
             filterNode(value, data)
@@ -340,16 +353,19 @@
         data()
         {
             return {
+                title: '',
                 text:'',
                 temp: '', // 临时数据
                 limit: 10, // 每页条数
                 bool: true, // 请求控制
-                circle: true,
-                addCircle: true,
-                addOk: true,
+                circle: true, // 搜索控制
+                addCircle: true, // 添加控制
+                addOk: true, // 添加确定控制
+                ok: true, // 搜索确定控制
                 filterText: '',
                 data: [],
-                loading: true,
+                loading: true, // 列表load
+                titleLoading: false, // 输入标题load
                 defaultProps: {
                     children: 'children',
                     label: 'title'

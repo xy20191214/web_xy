@@ -181,6 +181,10 @@
         st: function ()
         {// 滚动条距顶端
             return this[0].scrollTop;
+        },
+        wd: function ()
+        {
+            return this[0].offsetWidth;
         }
     });
     // ...
