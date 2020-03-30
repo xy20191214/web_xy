@@ -30,7 +30,7 @@ var api = {
         return request({
             url: '/book/type/handles',
             method: 'post',
-            params: {
+            data: {
                 title: title,
                 ch: ch,
                 pch: pch

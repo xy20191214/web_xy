@@ -187,7 +187,7 @@
             {
                 if (! this.title)
                 {
-                    this.$alert('分类标题不能为空', '提示', {
+                    this.$alert('标题不能为空', '提示', {
                         confirmButtonText: '确定',
                         type: 'error'
                     });
@@ -196,8 +196,14 @@
                 }
 
                 this.titleLoading = true;
-                editor.addType(this.title = '');
-                dd(this.title);
+                editor.addType(this.title).then(res => {
+                    dd(res)
+                    this.titleLoading = false;
+                    this.$alert(res, '提示', {
+                        confirmButtonText: '确定',
+                        type: 'error'
+                    });
+                });
             },
             // 设置div高度
             setHeight()

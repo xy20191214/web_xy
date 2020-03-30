@@ -12,12 +12,17 @@ const service = axios.create({
 // respone拦截器
 service.interceptors.response.use(
     response => {
+        if (response.status == 201 || response.status == 204)
+        {
+            return true;
+        }
+
         const code = response.data.code;
 
         // 接口提示
         if (code && code !== 200)
         {
-            return [];
+            return response.data.message;
         }
 
         return response.data;
