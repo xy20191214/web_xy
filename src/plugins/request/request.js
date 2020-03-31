@@ -12,9 +12,15 @@ const service = axios.create({
 // respone拦截器
 service.interceptors.response.use(
     response => {
+        let obj = {};
+        obj.ch = false;
+        obj.message = '';
+        obj.data = '';
+
         if (response.status == 201 || response.status == 204)
         {
-            return true;
+            obj.ch = true;
+            return obj;
         }
 
         const code = response.data.code;
@@ -22,10 +28,16 @@ service.interceptors.response.use(
         // 接口提示
         if (code && code !== 200)
         {
-            return response.data.message;
+            obj.message = response.data.message;
+
+            return obj;
         }
 
-        return response.data;
+        obj.data = response.data.data;
+        return obj;
+    },
+    error => {
+
     }
 );
 

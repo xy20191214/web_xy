@@ -174,6 +174,7 @@
 </style>
 <script>
     import editor from '@/api/book/editor';
+    import c from '@/plugins/tool/common';
 
     export default {
         watch: {
@@ -187,27 +188,25 @@
             {
                 if (! this.title)
                 {
-                    this.$alert('标题不能为空', '提示', {
-                        confirmButtonText: '确定',
-                        type: 'error'
-                    });
+                    c.alert(this);
 
                     return false;
                 }
 
                 this.titleLoading = true;
-                editor.addType(this.title).then(res => {
-                    dd(res)
+                editor.addType(this.title).then(res =>
+                {
                     this.titleLoading = false;
-                    this.$alert(res, '提示', {
-                        confirmButtonText: '确定',
-                        type: 'error'
-                    });
+                    if (! res.ch)
+                    {
+                        c.alert(this);
+                    }
                 });
             },
             // 设置div高度
             setHeight()
             {
+                dd(process.env.NODE_ENV, process.env.VUE_APP_API_URL);
                 let height = $('.grid-content').ht() - $(".go-first").oht() - $(".operation").oht();
                 $('.custom-tree-container').ht(height);
                 this.limit = Math.ceil(height / 36) + 1; // 自定义分页数
