@@ -125,6 +125,11 @@
         transition-delay: 0.1s;
         width: 0;
     }
+    @-moz-document url-prefix(){ // 火狐专用
+        .operation-input > .el-input__inner{
+            height: 39.5px;
+        }
+    }
     .operation-input{
         width: 0;
         transition-property:all;
@@ -184,6 +189,7 @@
             }
         },
         methods: {
+            // 添加分类
             addType()
             {
                 if (! this.title)
@@ -200,6 +206,9 @@
                     if (! res.ch)
                     {
                         c.alert(this);
+                    }else
+                    {
+                        this.listType();
                     }
                 });
             },
