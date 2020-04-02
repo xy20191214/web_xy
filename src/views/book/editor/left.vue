@@ -6,7 +6,7 @@
         <div class="operation">
             <el-button icon="el-icon-plus micon" :class="[addCircle ? 'mbutton' : 'mbutton-s']" :circle="addCircle" @click="addInput">
             </el-button>
-            <el-input ref="addInput" placeholder="请输入标题" class="operation-input" v-model="title"
+            <el-input ref="addInput" placeholder="输入添加分类标题" class="operation-input" v-model="title"
                       clearable maxlength="12">
             </el-input>
             <el-button :loading="titleLoading" icon="el-icon-check micon" :class="[addOk ? 'mbutton-r' : 'mbutton-r-b']" @click="addType">
@@ -16,11 +16,10 @@
 
             <el-button icon="el-icon-search micon" :class="[circle ? 'mbutton' : 'mbutton-s']" :circle="circle" @click="oInput">
             </el-button>
-            <el-input ref="oInput" placeholder="请输入搜索内容" class="operation-input" v-model="filterText">
+            <el-input ref="oInput" placeholder="输入搜索内容" class="operation-input-search" v-model="filterText">
             </el-input>
             <el-button icon="el-icon-check micon" :class="[ok ? 'mbutton-r' : 'mbutton-r-b']">
             </el-button>
-
         </div>
         <div class="custom-tree-container msrolla" @scroll="scroll">
             <el-tree
@@ -43,12 +42,26 @@
                                 <span>
                                     <el-tooltip placement="bottom" effect="light" v-show="node.isCurrent">
                                         <div slot="content">
-                                            <el-button size="mini" type="text" icon="el-icon-plus micon">
+                                            <el-tooltip class="item" content="位置上升" placement="bottom" effect="light">
+                                                <el-button size="mini" type="text" icon="el-icon-arrow-up micon">
+                                                </el-button>
+                                            </el-tooltip>
+                                            <el-tooltip class="item" content="位置下降" placement="bottom" effect="light">
+                                                <el-button size="mini" type="text" icon="el-icon-arrow-down micon">
                                             </el-button>
-                                            <el-button size="mini" type="text" icon="el-icon-edit-outline micon">
+                                            </el-tooltip>
+                                            <el-tooltip class="item" content="添加" placement="bottom" effect="light">
+                                                <el-button size="mini" type="text" icon="el-icon-plus micon">
                                             </el-button>
-                                            <el-button size="mini" type="text" icon="el-icon-delete-solid micon">
+                                            </el-tooltip>
+                                            <el-tooltip class="item" content="编辑" placement="bottom" effect="light">
+                                                <el-button size="mini" type="text" icon="el-icon-edit-outline micon">
                                             </el-button>
+                                            </el-tooltip>
+                                            <el-tooltip class="item" content="删除" placement="bottom" effect="light">
+                                                <el-button size="mini" type="text" icon="el-icon-delete-solid micon">
+                                            </el-button>
+                                            </el-tooltip>
                                         </div>
                                         <i class="el-icon-setting"></i>
                                     </el-tooltip>
@@ -125,13 +138,34 @@
         transition-delay: 0.1s;
         width: 0;
     }
+    .operation-input-search > .el-input__inner{
+        height: 40px;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        border: 0;
+        padding: 0;
+        padding-left: 5%;
+        transition-property:all;
+        transition-duration:.5s;
+        transition-delay: 0.1s;
+        width: 100%;
+    }
     @-moz-document url-prefix(){ // 火狐专用
-        .operation-input > .el-input__inner{
+        .operation-input > .el-input__inner, .operation-input-search > .el-input__inner{
             height: 39.5px;
         }
     }
     .operation-input{
         width: 0;
+        padding-left: 0;
+        transition-property:all;
+        transition-duration:.5s;
+        transition-delay: 0.1s;
+    }
+    .operation-input-search{
+        width: 55%;
         transition-property:all;
         transition-duration:.5s;
         transition-delay: 0.1s;
@@ -208,6 +242,7 @@
                         c.alert(this);
                     }else
                     {
+                        c.notify(this);
                         this.listType();
                     }
                 });
@@ -329,6 +364,7 @@
             {
                 this.titleLoading = false;
                 let input = this.$refs.oInput.$el.children[0];
+
                 if (this.circle)
                 {
                     this.addCircle = false;
@@ -372,10 +408,10 @@
                 temp: '', // 临时数据
                 limit: 10, // 每页条数
                 bool: true, // 请求控制
-                circle: true, // 搜索控制
+                circle: false, // 搜索控制
                 addCircle: true, // 添加控制
                 addOk: true, // 添加确定控制
-                ok: true, // 搜索确定控制
+                ok: false, // 搜索确定控制
                 filterText: '',
                 data: [],
                 loading: true, // 列表load
