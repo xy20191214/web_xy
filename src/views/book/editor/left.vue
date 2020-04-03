@@ -43,23 +43,23 @@
                                     <el-tooltip placement="bottom" effect="light" v-show="node.isCurrent">
                                         <div slot="content">
                                             <el-tooltip class="item" content="位置上升" placement="bottom" effect="light">
-                                                <el-button size="mini" type="text" icon="el-icon-arrow-up micon">
+                                                <el-button size="mini" type="text" icon="el-icon-arrow-up micon" @click="typeUp">
                                                 </el-button>
                                             </el-tooltip>
                                             <el-tooltip class="item" content="位置下降" placement="bottom" effect="light">
-                                                <el-button size="mini" type="text" icon="el-icon-arrow-down micon">
-                                            </el-button>
+                                                <el-button size="mini" type="text" icon="el-icon-arrow-down micon" @click="typeDown">
+                                                </el-button>
                                             </el-tooltip>
                                             <el-tooltip class="item" content="添加" placement="bottom" effect="light">
-                                                <el-button size="mini" type="text" icon="el-icon-plus micon">
-                                            </el-button>
+                                                <el-button size="mini" type="text" icon="el-icon-plus micon" @click="typeAdd">
+                                                </el-button>
                                             </el-tooltip>
                                             <el-tooltip class="item" content="编辑" placement="bottom" effect="light">
-                                                <el-button size="mini" type="text" icon="el-icon-edit-outline micon">
-                                            </el-button>
+                                                <el-button size="mini" type="text" icon="el-icon-edit-outline micon" @click="typeUpdate">
+                                                </el-button>
                                             </el-tooltip>
                                             <el-tooltip class="item" content="删除" placement="bottom" effect="light">
-                                                <el-button size="mini" type="text" icon="el-icon-delete-solid micon">
+                                                <el-button size="mini" type="text" icon="el-icon-delete-solid micon" @click="typeDelete">
                                             </el-button>
                                             </el-tooltip>
                                         </div>
@@ -223,6 +223,11 @@
             }
         },
         methods: {
+            // 分类升
+            typeUp()
+            {
+                
+            },
             // 添加分类
             addType()
             {
