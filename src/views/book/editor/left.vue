@@ -60,8 +60,13 @@
                                             </el-tooltip>
                                             <el-tooltip class="item" content="删除" placement="bottom" effect="light">
                                                 <el-button size="mini" type="text" icon="el-icon-delete-solid micon" @click="typeDelete">
-                                            </el-button>
+                                                </el-button>
                                             </el-tooltip>
+                                            <el-input placeholder="请输入内容">
+                                                <el-button slot="prepend" class="cblack" style="cursor: default">添加</el-button>|
+                                                <el-button slot="append" icon="el-icon-check" class="type-add-open cblack"></el-button>|
+                                                <el-button slot="append" icon="el-icon-close" class="type-add-close cblack"></el-button>
+                                            </el-input>
                                         </div>
                                         <i class="el-icon-setting"></i>
                                     </el-tooltip>
@@ -72,6 +77,22 @@
     </div>
 </template>
 <style lang="less">
+    @import '../../../assets/color';
+
+    /*分类列表元素设置*/
+    .cblack{
+        color: @cb !important;
+    }
+    .type-add-open{
+        border: 1px solid @bora !important;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+    .type-add-close{
+        margin-left: 18px !important;
+    }
+
+    /*分类主操作*/
     .operation-empty{
         height: 40px;
         width: 100%;
@@ -80,7 +101,7 @@
         height: 40px;
         position:fixed;
         bottom:0;
-        background: #404040;
+        background: @backa;
         user-select: none;
     }
     .mbutton{
@@ -104,7 +125,7 @@
         padding: 0;
         height: 40px;
         transition-property: all;
-        transition-duration: 300ms;
+        transition-duration: 100ms;
      }
     .mbutton-r-b{
         border-bottom-left-radius: 0;
@@ -114,16 +135,16 @@
         padding: 12px;
         transition-property: all;
         transition-duration: 400ms;
-        transition-delay: 515ms;
+        transition-delay: 540ms;
     }
     .micon{
         font-weight: bold;
-        color: #404040;
+        color: @backa;
     }
     .operation{
         width: 94%;
         padding: 15px 0 15px 5%;
-        border-bottom: 1px solid #666;
+        border-bottom: 1px solid @borb;
     }
     .operation-input > .el-input__inner{
         height: 40px;
@@ -170,8 +191,10 @@
         transition-duration:.5s;
         transition-delay: 0.1s;
     }
+
+    /*返回首页*/
     .go-first{
-        border-bottom: 1px solid #666;
+        border-bottom: 1px solid @borb;
         padding: 30px 10%;
     }
     .go-first-size
@@ -182,26 +205,26 @@
     }
     .go-first-size:hover{
         color: white;
-        border-color: #666;
-        background-color: #666;
+        border-color: @borb;
+        background-color: @borb;
     }
     .el-tree{
-        background: #404040;
-        color: #fff;
+        background: @backa;
+        color: @ca;
     }
     .el-tree-node__content{
         padding: 5px 10px 5px 0;
         border-radius: 2px
     }
     .el-tree-node:focus > .el-tree-node__content {
-        background-color: #666;
+        background-color: @borb;
     }
     .el-tree-node-checked{
-        background-color: #666;
-        border-left:#ba3e3e 3px solid;
+        background-color: @borb;
+        border-left:@borc 3px solid;
     }
     .el-tree-node__content:hover{
-        background-color: #666;
+        background-color: @borb;
     }
     .custom-tree-node {
         flex: 1;
@@ -223,10 +246,25 @@
             }
         },
         methods: {
-            // 分类升
-            typeUp()
+            typeUp() // 分类升
             {
                 
+            },
+            typeDown() // 分类降
+            {
+
+            },
+            typeAdd() // 分类添加
+            {
+
+            },
+            typeUpdate() // 分类修改
+            {
+
+            },
+            typeDelete() // 分类删除
+            {
+
             },
             // 添加分类
             addType()
@@ -255,7 +293,6 @@
             // 设置div高度
             setHeight()
             {
-                dd(process.env.NODE_ENV, process.env.VUE_APP_API_URL);
                 let height = $('.grid-content').ht() - $(".go-first").oht() - $(".operation").oht();
                 $('.custom-tree-container').ht(height);
                 this.limit = Math.ceil(height / 36) + 1; // 自定义分页数
