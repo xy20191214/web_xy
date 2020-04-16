@@ -3,7 +3,7 @@
         <div class="go-first">
             <el-button round class="go-first-size">回首页</el-button>
         </div>
-        <div class="operation">
+        <!--<div class="operation">
             <el-button icon="el-icon-plus micon" :class="[addCircle ? 'mbutton' : 'mbutton-s']" :circle="addCircle" @click="addInput">
             </el-button>
             <el-input ref="addInput" placeholder="输入添加分类标题" class="operation-input" v-model="title"
@@ -13,13 +13,32 @@
             </el-button>
 
             <i style="margin-left: 5px"></i>
-
+            
             <el-button icon="el-icon-search micon" :class="[circle ? 'mbutton' : 'mbutton-s']" :circle="circle" @click="oInput">
             </el-button>
             <el-input ref="oInput" placeholder="输入搜索内容" class="operation-input-search" v-model="filterText">
             </el-input>
             <el-button icon="el-icon-check micon" :class="[ok ? 'mbutton-r' : 'mbutton-r-b']">
             </el-button>
+        </div>-->
+        <div class="operation">
+            <div class="lefttype-add">
+                <el-button icon="el-icon-plus micon" :circle="addCircle">
+                </el-button>
+                <el-input placeholder="输入添加分类标题" style="width: 65%" v-model="title"
+                          clearable maxlength="12">
+                </el-input>
+                <el-button :loading="titleLoading" icon="el-icon-check micon" style="border-bottom-left-radius: 0;border-top-left-radius: 0;width: 40px;height: 40px;padding: 12px;">
+                </el-button>
+            </div>
+            <div class="lefttype-search">
+                <el-button icon="el-icon-plus micon" :circle="addCircle">
+                </el-button>
+                <!--<el-input placeholder="输入添加分类标题" style="width: 0;" class="" clearable maxlength="12">
+                </el-input>-->
+                <!--<el-button :loading="titleLoading" icon="el-icon-check micon" style="border-bottom-left-radius: 0;border-top-left-radius: 0;width: 40px;height: 40px;padding: 12px;">
+                </el-button>-->
+            </div>
         </div>
         <div class="custom-tree-container msrolla" @scroll="scroll">
             <el-tree
@@ -145,6 +164,13 @@
         width: 94%;
         padding: 15px 0 15px 5%;
         border-bottom: 1px solid @borb;
+        .lefttype-add{
+            width: 65%;
+            float: left;
+            input{
+                width: 100%;
+            }
+        }
     }
     .operation-input > .el-input__inner{
         height: 40px;
@@ -296,6 +322,8 @@
                 let height = $('.grid-content').ht() - $(".go-first").oht() - $(".operation").oht();
                 $('.custom-tree-container').ht(height);
                 this.limit = Math.ceil(height / 36) + 1; // 自定义分页数
+
+                this.listType();
             },
             // 滚动条
             scroll(e)
@@ -303,12 +331,12 @@
                 let bottom = $(e).sht() - Math.floor($(e).st()) - $(e).ht();
 
                 // 分页
-                if (bottom === 1 && this.bool)
+                if (bottom < 5 && this.bool)
                 {
                     this.bool = false;
-
+                    let page = this.temp.current_page + 1;
                     if (this.temp.last_page > this.temp.current_page)
-                        this.listType(0, this.temp.last_page);
+                        this.listType(0, page);
                 }
             },
             // 加载节点
@@ -326,6 +354,7 @@
                 limit = limit ? limit : this.limit;
                 let old = this.data,
                     res = await editor.getType(pch, page, limit);
+                this.loading = false;
                 let data = res.data.data;
 
                 // 获取左侧宽度，省略字符串
@@ -339,12 +368,11 @@
                 }
 
                 // 验证
-                if (data.length == 0) this.text = '列表数据不存在';
+                if (data.length == 0) this.text = '没有分类';
 
                 // 子集
                 if (pch) return data;
 
-                this.loading = false;
                 this.bool = true;
                 this.temp = res.data;
 
@@ -416,6 +444,7 @@
                     this.$refs.oInput.$el.style.width = "55%";
                     input.style.width = "100%";
                     input.style.paddingLeft = "5%";
+                    $('.mbutton-r-b').css('font-size', '12px');
 
                 }else
                 {
@@ -424,6 +453,7 @@
                     input.style.width = "0";
                     input.style.paddingLeft = "0";
                     this.$refs.oInput.$el.style.width = "0";
+                    $('.mbutton-r').css('font-size', '0');
                     this.circle = true;
                 }
             },
@@ -435,11 +465,9 @@
         },
         mounted(){
             this.setHeight();
-            this.listType();
             // 窗口改变
             window.onresize = () => {
                 this.setHeight();
-                this.listType();
             }
         },
         data()

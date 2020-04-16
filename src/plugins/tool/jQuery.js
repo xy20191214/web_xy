@@ -162,6 +162,16 @@
             this[0]['style'][attr] = val;
             return this;
         },
+        show: function (val = 'block')
+        {
+            this[0]['style']['display'] = val;
+            return this;
+        },
+        hide: function ()
+        {
+            this[0]['style']['display'] = 'none';
+            return this;
+        },
         html: function () {
             return this[0];
         },
