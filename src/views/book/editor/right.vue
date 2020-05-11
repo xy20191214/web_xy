@@ -1,5 +1,5 @@
 <template>
-    <div class="grid-content">
+    <div class="hw1">
         <div class="editor-tip">已保存</div>
         <div class="editor-title">
             <input type="text" :value="value" class="editor-title-input">

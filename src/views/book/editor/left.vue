@@ -1,5 +1,5 @@
 <template>
-    <div class="grid-content">
+    <div class="hw1 i-editor">
         <div class="go-first">
             <el-button round class="go-first-size">回首页</el-button>
         </div>
@@ -50,7 +50,7 @@
                                                 <el-button size="mini" type="text" icon="el-icon-arrow-down micon" @click="typeDown">
                                                 </el-button>
                                             </el-tooltip>
-                                            <el-tooltip class="item" content="添加" placement="bottom" effect="light">
+                                            <el-tooltip class="item" content="添加" placement="bottom" effect="light" @click="showTypeAdd">
                                                 <el-button size="mini" type="text" icon="el-icon-plus micon" @click="typeAdd">
                                                 </el-button>
                                             </el-tooltip>
@@ -62,7 +62,7 @@
                                                 <el-button size="mini" type="text" icon="el-icon-delete-solid micon" @click="typeDelete">
                                                 </el-button>
                                             </el-tooltip>
-                                            <el-input placeholder="请输入内容">
+                                            <el-input placeholder="请输入内容" class="typeAdd">
                                                 <el-button slot="prepend" class="cblack" style="cursor: default">添加</el-button>|
                                                 <el-button slot="append" icon="el-icon-check" class="type-add-open cblack"></el-button>|
                                                 <el-button slot="append" icon="el-icon-close" class="type-add-close cblack"></el-button>
@@ -80,8 +80,14 @@
     @import '../../../assets/color';
 
     /*分类列表元素设置*/
+    .i-editor{
+        background: @backa;
+    }
     .cblack{
         color: @cb !important;
+    }
+    .typeAdd{
+        margin: 20px 0px;
     }
     .type-add-open{
         border: 1px solid @bora !important;
@@ -246,6 +252,10 @@
             }
         },
         methods: {
+            showTypeAdd() // 展示添加框
+            {
+
+            },
             typeUp() // 分类升
             {
                 
@@ -293,7 +303,7 @@
             // 设置div高度
             setHeight()
             {
-                let height = $('.grid-content').ht() - $(".go-first").oht() - $(".operation").oht();
+                let height = $('.hw1').ht() - $(".go-first").oht() - $(".operation").oht();
                 $('.custom-tree-container').ht(height);
                 this.limit = Math.ceil(height / 36) + 1; // 自定义分页数
 
@@ -332,7 +342,7 @@
                 let data = res.data.data;
 
                 // 获取左侧宽度，省略字符串
-                let del = Math.floor(($(".grid-content").wd() - 50) / 20);
+                let del = Math.floor(($(".hw1").wd() - 50) / 20);
                 for (let i in data)
                 {
                     if (data[i].title.length > del)
