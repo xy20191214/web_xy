@@ -10,12 +10,17 @@ let c = {
             type: 'error'
         });
     },
-    notify: function (t, title = ['add'])
+    /**
+     * 添加成功message提示
+     * @param t this
+     * @param tipArr 提示信息
+     */
+    message: function (t, tipArr = ['add'])
     {
-        t.$notify({
-            title: con.success,
-            message: con.setstr(title).addsuccess(),
-            position: 'bottom-right',
+        t.$message({
+            showClose: true,
+            duration: 2500,
+            message: con.setstr(tipArr).addsuccess(),
             type: 'success'
         });
     }
