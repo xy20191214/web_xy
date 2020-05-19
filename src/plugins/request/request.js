@@ -36,9 +36,9 @@ service.interceptors.response.use(
         obj.data = response.data.data;
         return obj;
     },
-    error => {
-
-    }
+    // error => {
+    //
+    // }
 );
 
 export default service;

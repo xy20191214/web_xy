@@ -91,12 +91,12 @@
             return this.eq(0);
         },
         slice: function (){},
-        children: function (val)
+        children: function ()
         {
             //if (val) return this.merge(this[0].children).find(val);
             return this.merge(this[0].children);
         },
-        find: function (val)
+        find: function ()
         {// 只支持id与class
             /*let i = 0, first = this.construtor();
             if (val.substr(0, 1) == '.')
@@ -122,7 +122,7 @@
     // 组装对象
     jQuery.extend = jQuery.fn.extend = function (options)
     {
-        var target = this;
+        var target = this, name;
 
         for (name in options)
         {
@@ -200,7 +200,7 @@
     // ...
 
     // $符号的由来，实际上它就是jQuery，一个简化的写法，在这里我们还可以替换成其他可用字符
-    window.$ = jQuery;
+    window.JQ = jQuery;
 
     // 简化打印
     window.dd = function (...d)

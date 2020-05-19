@@ -50,5 +50,21 @@ module.exports = {
                 target: "<other_url>"
             }*/
         }
+    },
+
+    // webpack配置
+    configureWebpack: {
+        performance: {
+            // hints: false, // 关闭性能提示
+            hints: 'warning',
+            //入口起点的最大体积
+            maxEntrypointSize: 50000000,
+            //生成文件的最大体积
+            maxAssetSize: 30000000,
+            //只给出 js 文件的性能提示
+            assetFilter: function(assetFilename) {
+                return assetFilename.endsWith('.js');
+            }
+        }
     }
 };

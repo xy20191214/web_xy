@@ -38,12 +38,11 @@
     .editor-title-input
     {
         outline: none;
-        padding-left:20px;
+        margin-left:20px;
         border: 0;
         height: 35px;
         font-size: 20px;
         color: #595959;
-        font-weight: blod;
         width: 100%;
     }
 </style>

@@ -40,7 +40,7 @@
                         <span class="custom-tree-node" slot-scope="{ node }">
                             <span>{{ node.label }}</span>
                                 <span>
-                                    <el-tooltip placement="bottom" effect="light" v-show="node.isCurrent">
+                                    <el-tooltip placement="bottom" popper-class="i-editor-tip" effect="light" v-show="node.isCurrent">
                                         <div slot="content">
                                             <el-tooltip class="item" content="位置上升" placement="bottom" effect="light">
                                                 <el-button size="mini" type="text" icon="el-icon-arrow-up " @click="typeUp">
@@ -124,6 +124,11 @@
                 height: 40px;
                 transition-property: all;
                 transition-duration: 100ms;
+                i{
+                    font-size: 0;
+                    transition-property: all;
+                    transition-duration: 100ms;
+                }
             }
             .mbutton-r-b{
                 border-bottom-left-radius: 0;
@@ -134,6 +139,12 @@
                 transition-property: all;
                 transition-duration: 400ms;
                 transition-delay: 540ms;
+                i{
+                    font-size: 14px;
+                    transition-property: all;
+                    transition-duration: 400ms;
+                    transition-delay: 540ms;
+                }
             }
 
             .el-input__inner-g{
@@ -177,21 +188,6 @@
             }
         }
 
-        .typeAdd{
-            margin: 20px 0px;
-            .cblack{
-                color: @cb !important;
-            }
-        }
-        .type-add-open{
-            border: 1px solid @bora !important;
-            border-bottom-right-radius: 0px;
-            border-top-right-radius: 0px;
-        }
-        .type-add-close{
-            margin-left: 18px !important;
-        }
-
         .el-tree{
             background: @backa;
             color: @ca;
@@ -216,6 +212,23 @@
             align-items: center;
             justify-content: space-between;
             font-size: 16px;
+        }
+    }
+
+    .i-editor-tip{
+        .typeAdd{
+            margin: 20px 0px;
+            .cblack{
+                color: @cb !important;
+            }
+        }
+        .type-add-open{
+            border: 1px solid @bora !important;
+            border-bottom-right-radius: 0px;
+            border-top-right-radius: 0px;
+        }
+        .type-add-close{
+            margin-left: 18px !important;
         }
     }
 </style>
@@ -282,9 +295,9 @@
             // 设置div高度
             setHeight()
             {
-                let height = $('.hw1').ht() - $(".header").oht() - $(".operation").oht();
+                let height = JQ('.hw1').ht() - JQ(".header").oht() - JQ(".operation").oht();
 
-                $('.custom-tree-container').ht(height);
+                JQ('.custom-tree-container').ht(height);
                 this.limit = Math.ceil(height / 36) + 1; // 自定义分页数
 
                 this.listType();
@@ -292,7 +305,7 @@
             // 滚动条
             scroll(e)
             {
-                let bottom = $(e).sht() - Math.floor($(e).st()) - $(e).ht();
+                let bottom = JQ(e).sht() - Math.floor(JQ(e).st()) - JQ(e).ht();
 
                 // 分页
                 if (bottom < 5 && this.bool)
@@ -322,7 +335,7 @@
                 let data = res.data.data;
 
                 // 获取左侧宽度，省略字符串
-                let del = Math.floor(($(".hw1").wd() - 50) / 20);
+                let del = Math.floor((JQ(".hw1").wd() - 50) / 20);
                 for (let i in data)
                 {
                     if (data[i].title.length > del)
@@ -373,9 +386,9 @@
                     t.oInput();
                     t.addCircle = false;
                     t.addOk = false;
-                    $(t.$refs.addInput).css('width', '55%');
+                    JQ(t.$refs.addInput).css('width', '55%');
 
-                    $(input).css('width', '100%')
+                    JQ(input).css('width', '100%')
                         .css('paddingLeft', '5%')
                         .css('border', '1px solid #DCDFE6');
 
@@ -383,10 +396,10 @@
                 {
                     t.addOk = true;
                     t.addCircle = true;
-                    $(input).css('border', 0)
+                    JQ(input).css('border', 0)
                         .css('width', 0)
                         .css('paddingLeft', 0);
-                    $(t.$refs.addInput).css('width', 0);
+                    JQ(t.$refs.addInput).css('width', 0);
                 }
             },
             addInput()
@@ -428,9 +441,9 @@
         mounted(){
             this.setHeight();
             // 窗口改变
-            window.onresize = () => {
-                this.setHeight();
-            }
+            // window.onresize = () => {
+            //     this.setHeight();
+            // }
         },
         data()
         {
