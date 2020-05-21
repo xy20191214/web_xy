@@ -235,6 +235,7 @@
 <script>
     import editor from '@/api/book/editor';
     import c from '@/plugins/tool/common';
+    import JQ from '@/plugins/tool/jQuery.js';
 
     export default {
         watch: {
@@ -296,7 +297,7 @@
             setHeight()
             {
                 let height = JQ('.hw1').ht() - JQ(".header").oht() - JQ(".operation").oht();
-
+                
                 JQ('.custom-tree-container').ht(height);
                 this.limit = Math.ceil(height / 36) + 1; // 自定义分页数
 
