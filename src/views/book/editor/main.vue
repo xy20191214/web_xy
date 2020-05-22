@@ -11,6 +11,9 @@
         </el-col>
     </el-row>
 </template>
+<style lang="less">
+    @import '../../../assets/css/editor';
+</style>
 <script>
     import left from './left';
     import middle from './middle';

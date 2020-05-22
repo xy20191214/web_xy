@@ -8,7 +8,7 @@ const routes = [
     path: '/',
     name: 'home',
     meta:{
-      "title":"百度"
+      "title":"127.0.0.1"
     },
     component: () => import('../views/book/editor/main.vue')
   },

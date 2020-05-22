@@ -63,7 +63,7 @@
                                                 </el-button>
                                             </el-tooltip>
                                             <el-input placeholder="请输入内容" class="typeAdd">
-                                                <el-button slot="prepend" class="cblack" style="cursor: default">添加</el-button>|
+                                                <el-button slot="prepend" class="type-add-title cblack">添加</el-button>|
                                                 <el-button slot="append" icon="el-icon-check" class="type-add-open cblack"></el-button>|
                                                 <el-button slot="append" icon="el-icon-close" class="type-add-close cblack"></el-button>
                                             </el-input>
@@ -76,162 +76,7 @@
         </div>
     </div>
 </template>
-<style lang="less">
-    @import '../../../assets/color';
-    /*分类列表元素设置*/
-    .i-editor{
-        background: @backa;
 
-        .header{
-            border-bottom: 1px solid @borb;
-            padding: 30px 10%;
-            .header-title{
-                color: black;
-                height: 46px;
-                width: 100%;
-                &:hover{
-                    color: white;
-                    border-color: @borb;
-                    background-color: @borb;
-                }
-            }
-        }
-
-        .operation{
-            width: 94%;
-            padding: 15px 0 15px 5%;
-            border-bottom: 1px solid @borb;
-
-            .mbutton{
-                padding: 12px;
-                transition-property: all;
-                transition-duration: 400ms;
-                transition-delay: 515ms;
-            }
-            .mbutton-s{
-                border-bottom-right-radius: 0px;
-                border-top-right-radius: 0px;
-                padding: 12px;
-                transition-property: all;
-                transition-duration: 400ms;
-            }
-            .mbutton-r{
-                border-bottom-left-radius: 0;
-                border-top-left-radius: 0;
-                width: 0;
-                border: 0;
-                padding: 0;
-                height: 40px;
-                transition-property: all;
-                transition-duration: 100ms;
-                i{
-                    font-size: 0;
-                    transition-property: all;
-                    transition-duration: 100ms;
-                }
-            }
-            .mbutton-r-b{
-                border-bottom-left-radius: 0;
-                border-top-left-radius: 0;
-                width: 40px;
-                height: 40px;
-                padding: 12px;
-                transition-property: all;
-                transition-duration: 400ms;
-                transition-delay: 540ms;
-                i{
-                    font-size: 14px;
-                    transition-property: all;
-                    transition-duration: 400ms;
-                    transition-delay: 540ms;
-                }
-            }
-
-            .el-input__inner-g{
-                height: 40px;
-                border-bottom-left-radius: 0;
-                border-top-left-radius: 0;
-                border-bottom-right-radius: 0;
-                border-top-right-radius: 0;
-                border: 0;
-                padding: 0;
-                transition-property:all;
-                transition-duration:.5s;
-                transition-delay: 0.1s;
-            }
-            .operation-input > .el-input__inner{
-                .el-input__inner-g();
-                width: 0;
-            }
-            .operation-input-search > .el-input__inner{
-                .el-input__inner-g();
-                padding-left: 5%;
-                width: 100%;
-            }
-            @-moz-document url-prefix(){ // 火狐专用
-                .operation-input > .el-input__inner, .operation-input-search > .el-input__inner{
-                    height: 39.5px;
-                }
-            }
-            .operation-input{
-                width: 0;
-                padding-left: 0;
-                transition-property:all;
-                transition-duration:.5s;
-                transition-delay: 0.1s;
-            }
-            .operation-input-search{
-                width: 55%;
-                transition-property:all;
-                transition-duration:.5s;
-                transition-delay: 0.1s;
-            }
-        }
-
-        .el-tree{
-            background: @backa;
-            color: @ca;
-        }
-        .el-tree-node__content{
-            padding: 5px 10px 5px 0;
-            border-radius: 2px
-        }
-        .el-tree-node:focus > .el-tree-node__content {
-            background-color: @borb;
-        }
-        .el-tree-node-checked{
-            background-color: @borb;
-            border-left:@borc 3px solid;
-        }
-        .el-tree-node__content:hover{
-            background-color: @borb;
-        }
-        .custom-tree-node {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 16px;
-        }
-    }
-
-    .i-editor-tip{
-        .typeAdd{
-            margin: 20px 0px;
-            .cblack{
-                color: @cb !important;
-            }
-        }
-        .type-add-open{
-            border: 1px solid @bora !important;
-            border-bottom-right-radius: 0px;
-            border-top-right-radius: 0px;
-        }
-        .type-add-close{
-            margin-left: 18px !important;
-        }
-    }
-</style>
 <script>
     import editor from '@/api/book/editor';
     import c from '@/plugins/tool/common';
@@ -449,6 +294,7 @@
         data()
         {
             return {
+                a: true,
                 title: '',
                 text:'',
                 temp: '', // 临时数据
