@@ -1,0 +1,101 @@
+//$elbtnbrr-day:#DCDFE6;
+//$elbtnhor-day:#E9ECF3;
+//$bgd-a-day:#666666;
+//$ulsel-day:#BA3E3E;
+//$bgdft-a-day:#FFFFFF;
+//$btnft-day:#000000;
+//$bgd-b-day:#404040;
+$themes: (
+  light: (
+    //字体
+    ft_a: #FFFFFF,
+    ft_b: white,
+    ft_c: #000000,
+
+    //背景
+    bg_a: #FFFFFF,
+    bg_b: #404040,
+    bg_c: #666666,
+    bg_d: #E9ECF3,
+
+    //边框
+    bd_a: #666666,
+    bd_b: #BA3E3E,
+    bd_c: #DCDFE6,
+  ),
+
+  dark: (
+    //字体
+    ft_a: #414141,
+    ft_b: white,
+
+    //背景
+    bg_a: #FFFFFF,
+    bg_b: #283142,
+    bg_c: #1e6ceb,
+    bg_d: #323e4e,
+
+    //边框
+    bd_a: #3d414a,
+  )
+);
+
+//遍历主题map
+@mixin themeify {
+  @each $theme-name, $theme-map in $themes {
+    //!global 把局部变量强升为全局变量
+    $theme-map: $theme-map !global;
+    //判断html的data-theme的属性值  #{}是sass的插值表达式
+    //& sass嵌套里的父容器标识   @content是混合器插槽，像vue的slot
+    [data-theme="#{$theme-name}"] & {
+      @content;
+    }
+  }
+}
+
+//声明一个根据Key获取颜色的function
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+//获取背景颜色
+@mixin bg($color) {
+  @include themeify {
+    background-color: themed($color);
+  }
+}
+
+//获取字体颜色
+@mixin ft($color) {
+  @include themeify {
+    color: themed($color);
+  }
+}
+
+//获取边框颜色
+@mixin bd($color) {
+  @include themeify {
+    border-color: themed($color);
+  }
+}
+
+//获取下边框颜色
+@mixin bdb($color) {
+  @include themeify {
+    border-bottom-color: themed($color);
+  }
+}
+
+//获取左边框颜色
+@mixin bdl($color) {
+  @include themeify {
+    border-left-color: themed($color);
+  }
+}
+
+//获取右边框颜色
+@mixin bdr($color) {
+  @include themeify {
+    border-right-color: themed($color);
+  }
+}

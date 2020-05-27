@@ -11,8 +11,8 @@
         </el-col>
     </el-row>
 </template>
-<style lang="less">
-    @import '../../../assets/css/editor';
+<style rel="stylesheet/scss" lang="scss">
+    @import '../../../assets/css/editor.scss';
 </style>
 <script>
     import left from './left';
