@@ -50,8 +50,8 @@
                                                 <el-button size="mini" type="text" icon="el-icon-arrow-down " @click="typeDown">
                                                 </el-button>
                                             </el-tooltip>
-                                            <el-tooltip class="item" content="添加" placement="bottom" effect="light" @click="showTypeAdd">
-                                                <el-button size="mini" type="text" icon="el-icon-plus " @click="typeAdd">
+                                            <el-tooltip class="item" content="添加" placement="bottom" effect="light">
+                                                <el-button size="mini" type="text" icon="el-icon-plus " @click="typeAddShow = !typeAddShow">
                                                 </el-button>
                                             </el-tooltip>
                                             <el-tooltip class="item" content="编辑" placement="bottom" effect="light">
@@ -62,11 +62,13 @@
                                                 <el-button size="mini" type="text" icon="el-icon-delete-solid " @click="typeDelete">
                                                 </el-button>
                                             </el-tooltip>
-                                            <el-input placeholder="请输入内容" class="typeAdd">
-                                                <el-button slot="prepend" class="type-add-title cblack">添加</el-button>|
-                                                <el-button slot="append" icon="el-icon-check" class="type-add-open cblack"></el-button>|
-                                                <el-button slot="append" icon="el-icon-close" class="type-add-close cblack"></el-button>
-                                            </el-input>
+                                            <div class="typeAddShowTran" v-show="typeAddShow">
+                                                <el-input placeholder="请输入内容" class="typeAdd">
+                                                    <el-button slot="prepend" class="type-add-title cblack">添加</el-button>|
+                                                    <el-button slot="append" icon="el-icon-check" class="type-add-open cblack"></el-button>|
+                                                    <el-button slot="append" icon="el-icon-close" class="type-add-close cblack"></el-button>
+                                                </el-input>
+                                            </div>
                                         </div>
                                         <i class="el-icon-setting"></i>
                                     </el-tooltip>
@@ -90,19 +92,11 @@
             }
         },
         methods: {
-            showTypeAdd() // 展示添加框
-            {
-
-            },
             typeUp() // 分类升
             {
                 
             },
             typeDown() // 分类降
-            {
-
-            },
-            typeAdd() // 分类添加
             {
 
             },
@@ -294,7 +288,7 @@
         data()
         {
             return {
-                a: true,
+                typeAddShow: false,
                 title: '',
                 text:'',
                 temp: '', // 临时数据

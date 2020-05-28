@@ -150,7 +150,15 @@
 }
 
 .i-editor-tip{
-  width: 350px;
+  transition-property:all;
+  transition-duration:.2s;
+  .typeAddShowTran{
+    width: 0px;
+    transition: {
+      property:all;
+      duration: .2s;
+    }
+  }
   .typeAdd{
     width: 100%;
     height: 30px;
