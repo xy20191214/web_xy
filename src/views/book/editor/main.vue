@@ -12,7 +12,7 @@
     </el-row>
 </template>
 <style rel="stylesheet/scss" lang="scss">
-    @import '../../../assets/css/editor.scss';
+    @import '../../../assets/css/editor';
 </style>
 <script>
     import left from './left';

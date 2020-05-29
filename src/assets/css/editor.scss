@@ -16,7 +16,7 @@
       height: 46px;
       width: 100%;
       &:hover{
-        color: white;
+        color: white !important;
         @include bd("bd_a");
         @include bg("bg_c");
       }
